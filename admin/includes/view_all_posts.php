@@ -10,7 +10,7 @@
             <th>Tags</th>
             <th>Comments</th>
             <th>Date</th>
-            <th>Action</th>
+            <th colspan="2">Action</th>
         </tr>
     </thead>
     
@@ -42,6 +42,7 @@
                 echo "<td>$post_tags</td>";
                 echo "<td>$post_comment_count</td>";
                 echo "<td>$post_date</td>";
+                echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
                 echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
                 echo "</tr>";
 
@@ -53,7 +54,12 @@
 <?php
     if(isset($_GET['delete'])){
         $post_id_to_delete = $_GET['delete'];
-        echo "Are you sure to delete post #" . $post_id_to_delete;
+        
+        $query = "DELETE FROM posts WHERE post_id={$post_id_to_delete}";
+        $delete_post_query = mysqli_query($connection, $query);
+        header("Location: posts.php");
+        
+        confirmQuery($delete_post_query);
 
     }
 ?>
